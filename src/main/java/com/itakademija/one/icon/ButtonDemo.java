@@ -1,4 +1,4 @@
-package com.itakademija.one;
+package com.itakademija.one.icon;
 
 import javax.swing.*;
 
@@ -14,8 +14,9 @@ public class ButtonDemo {
         System.out.println(Thread.currentThread().getName());
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setTitle("Button Demo");
-        ButtonPanel buttonPanel = new ButtonPanel();
-        frame.setContentPane(buttonPanel);
+//        ButtonPanel buttonPanel = new ButtonPanel();
+//        JPanel panel = new ListDialogPanel();
+        frame.setContentPane(new CheckBoxPanel());
         frame.pack();
         frame.setVisible(true);
     }
