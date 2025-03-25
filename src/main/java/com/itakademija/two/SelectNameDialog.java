@@ -1,12 +1,13 @@
 package com.itakademija.two;
 
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
-public class SelectNameDialog extends JDialog {
+public class SelectNameDialog extends JDialog implements ActionListener {
 
-    private static String value;
+    private static String selectedValue;
 
     private final JList<String> list;
 
@@ -14,7 +15,7 @@ public class SelectNameDialog extends JDialog {
     private final JButton setButton = new JButton("set");
 
 
-    public SelectNameDialog(Frame frame,
+    private SelectNameDialog(Frame frame,
                             Component locationComponent,
                             String labelText,
                             String title,
@@ -36,11 +37,15 @@ public class SelectNameDialog extends JDialog {
         label.setLabelFor(list);
         listPanel.add(label);
         listPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+        listPanel.add(scrollPane);
 
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.LINE_AXIS));
         buttonPanel.setBorder(BorderFactory.createEmptyBorder(0,10,10,10));
         buttonPanel.add(Box.createGlue());
+        ActionListener buttonListener = this::actionPerformed;
+        cancelButton.addActionListener(buttonListener);
+        setButton.addActionListener(buttonListener);
         buttonPanel.add(cancelButton);
         buttonPanel.add(Box.createRigidArea(new Dimension(10,0)));
         buttonPanel.add(setButton);
@@ -54,9 +59,18 @@ public class SelectNameDialog extends JDialog {
         setLocationRelativeTo(locationComponent);
     }
     public void setValue(String newValue){
-        this.value = newValue;
-        this.list.setSelectedValue(this.value, true);
+        selectedValue = newValue;
+        this.list.setSelectedValue(this.selectedValue, true);
     }
+
+    public void actionPerformed(ActionEvent e) {
+        String actionCommand = e.getActionCommand();
+        if (actionCommand.equals("Set")){
+            selectedValue = list.getSelectedValue();
+        }
+        SelectNameDialog.this.setVisible(false);
+    }
+
     public static String showDialog(Component frameComponent,
                                     Component locationComponent,
                                     String labelText,
@@ -65,8 +79,15 @@ public class SelectNameDialog extends JDialog {
                                     String initialValue,
                                     String longValue){
         Frame frame = JOptionPane.getFrameForComponent(frameComponent);
-        SelectNameDialog selectNameDialog = new SelectNameDialog(frame, frameComponent, labelText, title, data, initialValue, longValue);
-        return value;
+        SelectNameDialog selectNameDialog = new SelectNameDialog(frame,
+                frameComponent,
+                labelText,
+                title,
+                data,
+                initialValue,
+                longValue);
+        selectNameDialog.setVisible(true);
+        return selectedValue;
     }
 
 

@@ -1,24 +1,27 @@
 package com.itakademija.two;
 
+import com.itakademija.two.combo.ComboBoxPanel;
+import com.itakademija.two.combo.EditableComboBoxPanel;
+
 import javax.swing.*;
+import java.awt.*;
 
 public class Demo {
     public static void main(String[] args) {
-        System.out.println(Thread.currentThread().getName());
         Runnable runnable = Demo::createAndShowGUI;
         SwingUtilities.invokeLater(runnable);
     }
     private static void createAndShowGUI(){
+
         System.out.println(Thread.currentThread().getName());
 
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-//        JPanel panel = new CheckBoxPanel();
-        frame.setContentPane(new SelectNamePanel());
-
+        JPanel panel = new ComboBoxPanel();
+        frame.setContentPane(new EditableComboBoxPanel());
         frame.setTitle("Graphical User Interface Demo");
-        frame.pack();
+        frame.setMinimumSize(new Dimension(300,300));
         frame.setVisible(true);
     }
 }
